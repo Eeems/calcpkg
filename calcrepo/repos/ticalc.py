@@ -72,7 +72,8 @@ class TicalcRepository(repo.CalcRepository):
                 categoryPath += splitUrl + '/'
 
         # Now open the category page and extract the URL for the file info page
-        categoryPage = urllib.urlopen(categoryPath, "")
+        categoryPage = urllib.urlopen(
+            categoryPath, b'' if sys.version_info.major == 3 else '')
         categoryData = categoryPage.read()
         if sys.version_info.major == 3:
             categoryData = categoryData.decode(errors='replace')
