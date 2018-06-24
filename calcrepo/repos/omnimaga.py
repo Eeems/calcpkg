@@ -9,7 +9,7 @@ if sys.version_info.major == 3:
     from html.parser import HTMLParser
 
 else:
-    import HTMLParser
+    from HTMLParser import HTMLParser
     import urllib2 as urllib
 
 
@@ -32,7 +32,7 @@ class OmnimagaRepository(repo.CalcRepository):
             'http://www.omnimaga.org/files/master.index', None, headers)
         masterIndex = urllib.urlopen(request).read()
         if sys.version_info.major == 3:
-            masterIndex = str(masterIndex)
+            masterIndex = masterIndex.decode("utf-8")
 
         self.printd("  Read in omnimaga master index.")
 
@@ -50,8 +50,9 @@ class OmnimagaRepository(repo.CalcRepository):
         masterIndex = masterIndex[masterIndex.find('\n') + 1:]
         directory = ""
         while len(masterIndex) > 2:
-            line = masterIndex[:masterIndex.find('\n')]
-            masterIndex = masterIndex[masterIndex.find('\n') + 1:]
+            idx = masterIndex.find('\n')
+            line = masterIndex[:idx]
+            masterIndex = masterIndex[idx + 1:]
             if line == "":
                 continue
             if line[:len("Index of") + 1] == "Index of " and "/" in line:
@@ -68,8 +69,8 @@ class OmnimagaRepository(repo.CalcRepository):
                     length += len(word)
                     if '.' in word:
                         break
-                fileData = line[:length]
 
+                fileData = line[:length]
                 files.write(directory + '/' + fileData + '\n')
                 nameData = line[len(fileData) + 1:].lstrip()
                 names.write(nameData + '\n')
@@ -102,7 +103,7 @@ class OmnimagaRepository(repo.CalcRepository):
 
         # unescape the description, do some magic.
         fileInfo.description = jsonInfo['description']
-        parser = HTMLParser.HTMLParser()
+        parser = HTMLParser()
         fileInfo.description = parser.unescape(fileInfo.description)
         fileInfo.description = fileInfo.description.replace("[img]", "")
         fileInfo.description = fileInfo.description.replace("[/img]", "")

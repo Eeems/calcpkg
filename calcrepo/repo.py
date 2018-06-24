@@ -1,3 +1,4 @@
+from __future__ import print_function
 import copy
 import os
 import sys
@@ -136,6 +137,8 @@ class CalcRepository:
             headers = {'User-Agent': 'calcpkg/2.0'}
             request = urllib2.Request(download, None, headers)
             fileData = urllib2.urlopen(request).read()
+            if sys.version_info.major == 3:
+                fileData = fileData.decode("utf-8")
 
             # Now, process the downloaded file
             dowName = datum[0]
@@ -219,6 +222,10 @@ class CalcRepository:
         except urllib2.URLError as e:
             self.printd("URL error:", e.code, url)
             return None
+
+        if sys.version_info.major == 3:
+            contents = contents.decode("utf-8")
+
         self.printd("Fetched '%s' (size %d bytes)" % (fullurl, len(contents)))
         return contents
 

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import sys
 
 
@@ -54,7 +55,7 @@ class FileInfo:
                 else:
                     actual += "\n" + (" " * (len(text) - 2)) + ": " + separated + " "
                     index = len(text)
-            print >> stdout, actual
+            print(actual, file=stdout)
             # print(actual, stdout)
 
     def printData(self, output=sys.stdout):
@@ -70,4 +71,4 @@ class FileInfo:
         self.printDatum("Source Code   : ", self.sourceCode, output)
         self.printDatum("Description   : ", self.description, output)
         # print("\n", output)
-        print >> output, "\n\n"
+        print("\n\n", file=output)

@@ -152,7 +152,8 @@ class Index:
         # Prepare output to parse
         space = 0
         longestFile = len("File Name:")
-        for key, value in nameData.iteritems():
+        for key, value in nameData.items() if sys.version_info.major == 3 \
+                else nameData.iteritems():
             fileValue = fileData[key]
             data.append([fileValue, value])
             if fileValue is not None:

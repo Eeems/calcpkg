@@ -1,7 +1,13 @@
-import urllib
+import sys
 
 from calcrepo import info
 from calcrepo import repo
+
+if sys.version_info.major == 3:
+    import urllib.request as urllib
+
+else:
+    import urllib
 
 name = "ticalc"
 url = "http://www.ticalc.org/"
@@ -18,6 +24,9 @@ class TicalcRepository(repo.CalcRepository):
 
         # First read in the text (the only network process involved)
         masterIndex = urllib.urlopen('http://www.ticalc.org/pub/master.index').read()
+        if sys.version_info.major == 3:
+            masterIndex = masterIndex.decode("utf-8")
+
         self.printd("  Read in ticalc.org master index.")
 
         # Delete and open new indices
@@ -65,6 +74,9 @@ class TicalcRepository(repo.CalcRepository):
         # Now open the category page and extract the URL for the file info page
         categoryPage = urllib.urlopen(categoryPath, "")
         categoryData = categoryPage.read()
+        if sys.version_info.major == 3:
+            categoryData = categoryData.decode("utf-8")
+
         categoryPage.close()
         index = categoryData.find(fileUrl) - 7
         rIndex = categoryData.rfind('A HREF="', 0, index)
@@ -75,6 +87,9 @@ class TicalcRepository(repo.CalcRepository):
         fileInfo = info.FileInfo(fileUrl, fileName, infoUrl, self.output)
         infoPage = urllib.urlopen(infoUrl)
         infoText = infoPage.read()
+        if sys.version_info.major == 3:
+            infoText = infoText.decode("utf-8")
+
         infoPage.close()
 
         # Fill in all the data bits

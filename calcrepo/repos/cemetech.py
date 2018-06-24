@@ -47,13 +47,13 @@ class CemetechRepository(repo.CalcRepository):
         root = archiveRoot + parent
         archive = urllib.urlopen(root)
         archiveText = archive.read()
+        if sys.version_info.major == 3:
+            archiveText = archiveText.decode("utf-8")
+
         archive.close()
 
         # Recursively call this function on all subdirectories
         working = archiveText
-        if sys.version_info.major == 3:
-            working = str(working)
-
         folderString = 'solid #aaa;"><a href="index.php?mode=folder&path='
         while folderString in working:
             index = working.find(folderString) + len(folderString)
@@ -68,8 +68,6 @@ class CemetechRepository(repo.CalcRepository):
 
         # Now, step through all files and write them to the names and files objects
         working = archiveText
-        if sys.version_info.major == 3:
-            working = str(working)
         # /73/basic/games/aod73.zip&path=archives"
         fileString = "../scripts/countdown.php?"
         while fileString in working:
@@ -94,6 +92,9 @@ class CemetechRepository(repo.CalcRepository):
         fileInfo = info.FileInfo(fileUrl, fileName, infoUrl, self.output)
         infoPage = urllib.urlopen(infoUrl)
         infoText = infoPage.read()
+        if sys.version_info.major == 3:
+            infoText = infoText.decode("utf-8")
+
         infoPage.close()
 
         # Fill in all the data provided by Cemetech
