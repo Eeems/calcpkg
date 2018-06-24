@@ -32,7 +32,7 @@ class OmnimagaRepository(repo.CalcRepository):
             'http://www.omnimaga.org/files/master.index', None, headers)
         masterIndex = urllib.urlopen(request).read()
         if sys.version_info.major == 3:
-            masterIndex = masterIndex.decode("utf-8")
+            masterIndex = masterIndex.decode(errors='replace')
 
         self.printd("  Read in omnimaga master index.")
 

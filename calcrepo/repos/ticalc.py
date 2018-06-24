@@ -25,7 +25,7 @@ class TicalcRepository(repo.CalcRepository):
         # First read in the text (the only network process involved)
         masterIndex = urllib.urlopen('http://www.ticalc.org/pub/master.index').read()
         if sys.version_info.major == 3:
-            masterIndex = masterIndex.decode("utf-8")
+            masterIndex = masterIndex.decode(errors='replace')
 
         self.printd("  Read in ticalc.org master index.")
 
@@ -75,7 +75,7 @@ class TicalcRepository(repo.CalcRepository):
         categoryPage = urllib.urlopen(categoryPath, "")
         categoryData = categoryPage.read()
         if sys.version_info.major == 3:
-            categoryData = categoryData.decode("utf-8")
+            categoryData = categoryData.decode(errors='replace')
 
         categoryPage.close()
         index = categoryData.find(fileUrl) - 7
@@ -88,7 +88,7 @@ class TicalcRepository(repo.CalcRepository):
         infoPage = urllib.urlopen(infoUrl)
         infoText = infoPage.read()
         if sys.version_info.major == 3:
-            infoText = infoText.decode("utf-8")
+            infoText = infoText.decode(errors='replace')
 
         infoPage.close()
 

@@ -48,7 +48,7 @@ class CemetechRepository(repo.CalcRepository):
         archive = urllib.urlopen(root)
         archiveText = archive.read()
         if sys.version_info.major == 3:
-            archiveText = archiveText.decode("utf-8")
+            archiveText = archiveText.decode(errors='replace')
 
         archive.close()
 
@@ -93,7 +93,7 @@ class CemetechRepository(repo.CalcRepository):
         infoPage = urllib.urlopen(infoUrl)
         infoText = infoPage.read()
         if sys.version_info.major == 3:
-            infoText = infoText.decode("utf-8")
+            infoText = infoText.decode(errors='replace')
 
         infoPage.close()
 

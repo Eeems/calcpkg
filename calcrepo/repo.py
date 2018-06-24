@@ -138,7 +138,7 @@ class CalcRepository:
             request = urllib2.Request(download, None, headers)
             fileData = urllib2.urlopen(request).read()
             if sys.version_info.major == 3:
-                fileData = fileData.decode("utf-8")
+                fileData = fileData.decode(errors='replace')
 
             # Now, process the downloaded file
             dowName = datum[0]
@@ -224,7 +224,7 @@ class CalcRepository:
             return None
 
         if sys.version_info.major == 3:
-            contents = contents.decode("utf-8")
+            contents = contents.decode(errors='replace')
 
         self.printd("Fetched '%s' (size %d bytes)" % (fullurl, len(contents)))
         return contents
